@@ -6,8 +6,10 @@ import (
 	"context"
 	"io"
 	"log"
+	"net/http"
+	"os"
+	"errors"
 )
-
 
 func getBody(url string) string {
 	client := &gemini.Client{}
@@ -33,7 +35,12 @@ func getBody(url string) string {
   //fmt.Println(string(body))
 }
 
+// root endpoint
+func 
+
 func main() {
 	resp := getBody("gemini://geminiprotocol.net/")
 	fmt.Println(resp)
 }
+
+// define endpoints
