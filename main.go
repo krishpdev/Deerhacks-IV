@@ -8,13 +8,14 @@ import (
 	"log"
 )
 
-func main() {
+
+func getBody(url string) string {
 	client := &gemini.Client{}
 	ctx := context.Background()
-	resp, err := client.Get(ctx, "gemini://geminiprotocol.net/")
+	resp, err := client.Get(ctx, url)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return ""
 	}
 	defer resp.Body.Close()
 
@@ -28,6 +29,11 @@ func main() {
   }
 
   // Use the body contents (it's a []byte)
-  fmt.Println(string(body))
+  return string(body)
+  //fmt.Println(string(body))
+}
 
+func main() {
+	resp := getBody("gemini://geminiprotocol.net/")
+	fmt.Println(resp)
 }
