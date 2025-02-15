@@ -41,7 +41,7 @@ func parseBodyJson(body string) []map[string]interface{} {
 		if i >= len(lines) {
 			break
 		}
-
+		fmt.Println(i)
 		// Initialize a new map for each line
 		jsonLine := make(map[string]interface{})
 
@@ -76,9 +76,10 @@ func parseBodyJson(body string) []map[string]interface{} {
 				jsonLine["objecttype"] = "header2"
 				jsonLine["content"] = lines[i][2:]
 				results = append(results, jsonLine)
+				continue
 			} else if lines[i][:2] == "=>" {
 				jsonLine["objecttype"] = "link"
-				contentsplit := strings.Split(strings.TrimSpace(lines[i][2:]), " ")
+				contentsplit := strings.Split(strings.TrimSpace(lines[i][2:]), "\t")
 				if len(contentsplit) > 0 {
 					jsonLine["link"] = contentsplit[0]
 					if len(contentsplit) > 1 {
@@ -86,8 +87,8 @@ func parseBodyJson(body string) []map[string]interface{} {
 					}
 					results = append(results, jsonLine)
 				}
+				continue
 			}
-			continue
 		}
 
 		// Handle header 1, unordered lists, citations, and paragraphs
