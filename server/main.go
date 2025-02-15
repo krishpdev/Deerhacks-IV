@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"github.com/rs/cors"
 )
 
 func getBody(url string) string {
@@ -115,28 +116,13 @@ func parseBodyJson(body string) []map[string]interface{} {
 	return results
 }
 
-func enableCors(w *http.ResponseWriter) {
-	(*w).Header().Set("Access-Control-Allow-Origin", "*")
-	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
-	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Authorization")
-}
-
 func getRoot(w http.ResponseWriter, r *http.Request) {
-	enableCors(&w)
 	fmt.Printf("got / request\n")
 	io.WriteString(w, "This is my website!\n")
 }
 
 func getUrlAPI(w http.ResponseWriter, r *http.Request) {
-	enableCors(&w)
 	w.Header().Set("Content-Type", "application/json")
-	
-	// Handle preflight OPTIONS request
-	if r.Method == "OPTIONS" {
-		w.WriteHeader(http.StatusOK)
-		return
-	}
-	
 	switch r.Method {
 	case "POST":
 		fmt.Println("POST request received")
@@ -169,11 +155,22 @@ func getUrlAPI(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", getRoot)
-	http.HandleFunc("/geturl", getUrlAPI)
+    mux := http.NewServeMux()
+    mux.HandleFunc("/", getRoot)
+    mux.HandleFunc("/geturl", getUrlAPI)
 
-	fmt.Println("Server starting on port 3333...")
-	if err := http.ListenAndServe(":3333", nil); err != nil {
-		log.Fatal(err)
-	}
+    // Create a CORS middleware
+    c := cors.New(cors.Options{
+        AllowedOrigins: []string{"http://localhost:8888"}, // Add your frontend origin
+        AllowedMethods: []string{"GET", "POST", "OPTIONS"},
+        AllowedHeaders: []string{"Content-Type"},
+    })
+
+    // Wrap the server with CORS middleware
+    handler := c.Handler(mux)
+
+    fmt.Println("Server starting on port 3333...")
+    if err := http.ListenAndServe(":3333", handler); err != nil {
+        log.Fatal(err)
+    }
 }

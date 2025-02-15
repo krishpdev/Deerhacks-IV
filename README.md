@@ -1,3 +1,0 @@
-# Deerhacks-IV
-
-TEST COMMIT
