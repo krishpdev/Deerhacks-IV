@@ -115,13 +115,28 @@ func parseBodyJson(body string) []map[string]interface{} {
 	return results
 }
 
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Authorization")
+}
+
 func getRoot(w http.ResponseWriter, r *http.Request) {
+	enableCors(&w)
 	fmt.Printf("got / request\n")
 	io.WriteString(w, "This is my website!\n")
 }
 
 func getUrlAPI(w http.ResponseWriter, r *http.Request) {
+	enableCors(&w)
 	w.Header().Set("Content-Type", "application/json")
+	
+	// Handle preflight OPTIONS request
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+	
 	switch r.Method {
 	case "POST":
 		fmt.Println("POST request received")
