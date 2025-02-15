@@ -1,0 +1,11 @@
+[
+  {"content": "Gemini in 100 words", "objecttype": "header2"},
+  {"content": "you'd like to know more, read our FAQ", "link": "docs/faq.gmi\tIf", "objecttype": "link"},
+  {"content": "if you'd prefer, here's a video overview", "link": "https://www.youtube.com/watch?v=DoEI6VzybDk\tOr,", "objecttype": "link"},
+  {"content": "Official resources", "objecttype": "header2"},
+  {"content": "Gemini news", "link": "news/\tProject", "objecttype": "link"},
+  {"content": "Gemini documentation", "link": "docs/\tProject", "objecttype": "link"},
+  {"content": "Gemini history", "link": "history/\tProject", "objecttype": "link"},
+  {"content": "Gemini software", "link": "software/\tKnown", "objecttype": "link"},
+  {"content": "Attribution-NonCommercial-NoDerivs 4.0 International", "link": "https://creativecommons.org/licenses/by-nc-nd/4.0/\tCC", "objecttype": "link"}
+]
