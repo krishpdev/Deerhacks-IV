@@ -89,7 +89,7 @@ export default function HomePage() {
           {/* Tabs */}
           <ul className="flex flex-col justify-center">
             {tabs.map((tab, index) => (
-              <li key={index} className="p-2 w-48 bg-white rounded-lg shadow overflow-hidden text-ellipsis">
+              <li key={index} className="p-2 w-48 h-10 bg-white rounded-lg shadow overflow-hidden whitespace-nowrap text-ellipsis">
                 {tab}
               </li>
             ))}
