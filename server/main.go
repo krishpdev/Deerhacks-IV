@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"strings"
 	"github.com/rs/cors"
+	"regexp"
 )
 
 func getBody(url string) string {
@@ -34,6 +35,7 @@ func getBody(url string) string {
 }
 
 func parseBodyJson(url string, body string) []map[string]interface{} {
+	fmt.Println(body)
 	var results []map[string]interface{}
 	lines := strings.Split(body, "\n")
 	fmt.Printf("%d lines\n", len(lines))
@@ -80,7 +82,8 @@ func parseBodyJson(url string, body string) []map[string]interface{} {
 				continue
 			} else if lines[i][:2] == "=>" {
 				jsonLine["objecttype"] = "link"
-				contentsplit := strings.Split(strings.TrimSpace(lines[i][2:]), "\t")
+				//contentsplit := strings.Split(strings.TrimPrefix(strings.TrimSuffix(lines[i][2:], " "), "\t"), "\t")
+				contentsplit := regexp.MustCompile("[\t ]").Split(lines[i][2:],-1)
 				if len(contentsplit) > 0 {
 					fmt.Printf("link is: %q\n", contentsplit[0])
 					// check if root link or not root link

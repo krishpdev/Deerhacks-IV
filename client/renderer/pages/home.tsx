@@ -93,6 +93,11 @@ export default function HomePage() {
                   Gemipedia
                 </Button>
               </li>
+              <li className="mb-2">
+                <Button className="p-2 w-[90%] bg-blue-500 text-white rounded-lg shadow mb-2" onClick={() => searchByUrlAddHistory("gemini://cdg.thegonz.net/")}>
+                  TheGonz
+                </Button>
+              </li>
             </ul>
           </div>
 
