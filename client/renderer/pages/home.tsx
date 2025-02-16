@@ -53,7 +53,7 @@ export default function HomePage() {
     setUrl(searchUrl);
     await handleSearch(searchUrl);
   };
-  
+
   const searchByUrlAddHistory = async (searchUrl: string) => {
     setHistoryPtr(historyptr + 1);
     setHistory([...history, searchUrl]);
@@ -61,6 +61,10 @@ export default function HomePage() {
   };
 
   const renderContent = (item: ContentItem) => {
+    if (item === null) {
+      return <Error404 />;
+    }
+
     switch (item.objecttype) {
       case "header1":
         return <h1 className="text-2xl font-bold mt-4 mb-2">{item.content}</h1>;
@@ -83,6 +87,19 @@ export default function HomePage() {
         return <p>{item.content}</p>;
     }
   };
+
+  const Error404 = () => (
+    <div className="text-center py-10">
+      <h1 className="text-4xl font-bold text-gray-800 mb-4">404</h1>
+      <p className="text-xl text-gray-600 mb-8">Oops! Page not found.</p>
+      <Button 
+        onClick={() => searchByUrlAddHistory('gemini://geminiprotocol.net/')}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Go to Home
+      </Button>
+    </div>
+  );
 
   return (
     <React.Fragment>
@@ -212,10 +229,14 @@ export default function HomePage() {
         </header>
 
         {/* Content Section */}
-        <div className="bg-white min-h-[30rem] p-6 rounded-lg shadow-md">
-          {result.map((item, index) => (
-            <React.Fragment key={index}>{renderContent(item)}</React.Fragment>
-          ))}
+        <div className="bg-white min-h-screen p-6">
+          {result === null ? (
+            <Error404 />
+          ) : (
+            result.map((item, index) => (
+              <React.Fragment key={index}>{renderContent(item)}</React.Fragment>
+            ))
+          )}
         </div>
       </div>
     </React.Fragment>
