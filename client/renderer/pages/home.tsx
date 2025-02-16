@@ -80,13 +80,16 @@ export default function HomePage() {
       <div className="w-full h-full">
         {/* Header Section */}
         <header>
-          <ul className="flex flex-col items-center justify-center">
+          {/* Tabs */}
+          <ul className="flex flex-col justify-center">
             {tabs.map((tab, index) => (
-              <li key={index} className="p-2 w-48 bg-white rounded-lg shadow mb-2 overflow-hidden text-ellipsis">
+              <li key={index} className="p-2 w-48 bg-white rounded-lg shadow overflow-hidden text-ellipsis">
                 {tab}
               </li>
             ))}
           </ul>
+
+          {/* URL Bar */}
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -118,9 +121,11 @@ export default function HomePage() {
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               placeholder="Enter Gemini URL"
-              className="w-full max-w-xl px-4 py-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+              className="w-full px-4 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
             />
           </form>
+
+          {/* Favourites */}
           <ul className="text-center text-lg font-bold flex gap-2">
             <li>
               <Button className="bg-blue-500 text-white rounded-lg shadow" onClick={() => searchByUrlAddHistory("gemini://geminiprotocol.net/")}>
