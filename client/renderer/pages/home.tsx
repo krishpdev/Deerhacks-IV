@@ -147,6 +147,7 @@ export default function HomePage() {
           >
             <div className="flex gap-2">
               <Button
+                type="button"
                 className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
                 onClick={() => {
                   if (historyptr > 0) setHistoryPtr(historyptr - 1);
@@ -162,6 +163,7 @@ export default function HomePage() {
                 Search
               </Button>
               <Button
+                type="button"
                 className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
                 onClick={() => {
                   if (historyptr < history.length - 1)
