@@ -107,14 +107,20 @@ export default function HomePage() {
             <div className="text-center mb-4">
               <Image
                 className="mx-auto"
-                src="/images/logo.jpg"
+                src="/images/logo.png"
                 alt="Logo image"
                 width={128}
                 height={128}
               />
               <h1 className="text-3xl font-bold mt-2">Gemini Browser</h1>
             </div>
-            <form onSubmit={handleSearch} className="flex flex-col items-center">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSearch(url);
+              }}
+              className="flex flex-col items-center"
+            >
               <input
                 type="text"
                 value={url}
