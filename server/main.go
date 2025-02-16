@@ -33,7 +33,7 @@ func getBody(url string) string {
 	return string(body)
 }
 
-func parseBodyJson(body string) []map[string]interface{} {
+func parseBodyJson(url string, body string) []map[string]interface{} {
 	var results []map[string]interface{}
 	lines := strings.Split(body, "\n")
 	fmt.Printf("%d lines\n", len(lines))
@@ -82,7 +82,19 @@ func parseBodyJson(body string) []map[string]interface{} {
 				jsonLine["objecttype"] = "link"
 				contentsplit := strings.Split(strings.TrimSpace(lines[i][2:]), "\t")
 				if len(contentsplit) > 0 {
-					jsonLine["link"] = contentsplit[0]
+					fmt.Printf("link is: %q\n", contentsplit[0])
+					// check if root link or not root link
+					if len(contentsplit[0]) >= 9{
+						if strings.HasPrefix(contentsplit[0], "gemini://") || strings.HasPrefix(contentsplit[0], "http://") || strings.HasPrefix(contentsplit[0], "https://"){
+						jsonLine["link"] = contentsplit[0]
+						} else{
+							jsonLine["link"] = url + contentsplit[0]
+						}
+					} else{
+						jsonLine["link"] = url + contentsplit[0]
+					}
+					fmt.Printf("%q\n", jsonLine["link"])
+
 					if len(contentsplit) > 1 {
 						jsonLine["content"] = strings.Join(contentsplit[1:], " ")
 					}
@@ -140,7 +152,7 @@ func getUrlAPI(w http.ResponseWriter, r *http.Request) {
 		}
 		fmt.Println("URL: ", url)
 		resp := getBody(url)
-		parsed := parseBodyJson(resp)
+		parsed := parseBodyJson(url, resp)
 		
 		// Convert parsed results to JSON
 		jsonResponse, err := json.Marshal(parsed)
