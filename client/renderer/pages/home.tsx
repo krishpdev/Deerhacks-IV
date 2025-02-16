@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import { Button } from "../components/ui/button"
@@ -14,9 +14,14 @@ interface ContentItem {
 export default function HomePage() {
   const [url, setUrl] = useState('gemini://geminiprotocol.net/')
   const [result, setResult] = useState<ContentItem[]>([])
-  const [tabs, setTabs] = useState<string[]>(['gemini://geminiprotocol.net/'])
+  const [tabs, setTabs] = useState<string[]>(['gemini://geminiprotocol.net/'])  
   const [history, setHistory] = useState<string[]>(['gemini://geminiprotocol.net/'])
   const [historyptr, setHistoryPtr] = useState(0)
+
+  // Load home page URL on first load
+  useEffect(() => {
+    handleSearch(url)
+  }, [])
 
   const handleSearch = async (searchUrlToUse?: string) => {
     // Use the passed parameter if provided; otherwise, fall back to state
@@ -77,8 +82,8 @@ export default function HomePage() {
         <header>
           <ul className="flex flex-col items-center justify-center">
             {tabs.map((tab, index) => (
-              <li key={index} className="p-2 w-[90%] bg-white rounded-lg shadow mb-2">
-                {tab.length > 24 ? `${tab.substring(9, 24)}...` : tab}
+              <li key={index} className="p-2 w-48 bg-white rounded-lg shadow mb-2 overflow-hidden text-ellipsis">
+                {tab}
               </li>
             ))}
           </ul>
@@ -87,23 +92,16 @@ export default function HomePage() {
               e.preventDefault();
               handleSearch(url);
             }}
-            className="flex flex-col items-center"
+            className="flex"
           >
-            <input
-              type="text"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              placeholder="Enter Gemini URL"
-              className="w-full max-w-xl px-4 py-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 mb-2"
-            />
-            <div className="flex space-x-2">
+            <div className="flex gap-2">
               <Button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded" onClick={() => {
                 if (historyptr > 0)
                   setHistoryPtr(historyptr - 1)
                 searchByUrl(history[historyptr])
-              }} >
+              }}>
                 Back
-              </Button >
+              </Button>
               <Button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Search
               </Button>
@@ -111,29 +109,36 @@ export default function HomePage() {
                 if (historyptr < history.length - 1)
                   setHistoryPtr(historyptr + 1)
                 searchByUrl(history[historyptr])
-              }} >
+              }}>
                 Forward
               </Button>
             </div>
+            <input
+              type="text"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              placeholder="Enter Gemini URL"
+              className="w-full max-w-xl px-4 py-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+            />
           </form>
-          <ul className="text-center text-lg font-bold mb-4">
+          <ul className="text-center text-lg font-bold flex gap-2">
             <li>
-              <Button className="p-2 w-[90%] bg-blue-500 text-white rounded-lg shadow mb-2" onClick={() => searchByUrlAddHistory("gemini://geminiprotocol.net/")}>
+              <Button className="bg-blue-500 text-white rounded-lg shadow" onClick={() => searchByUrlAddHistory("gemini://geminiprotocol.net/")}>
                 Gemini Protocol
               </Button>
             </li>
             <li>
-              <Button className="p-2 w-[90%] bg-blue-500 text-white rounded-lg shadow mb-2" onClick={() => searchByUrlAddHistory("gemini://geminiprotocol.net/docs/faq.gmi")}>
+              <Button className="bg-blue-500 text-white rounded-lg shadow" onClick={() => searchByUrlAddHistory("gemini://geminiprotocol.net/docs/faq.gmi")}>
                 Gemini FAQ
               </Button>
             </li>
             <li className="mb-2">
-              <Button className="p-2 w-[90%] bg-blue-500 text-white rounded-lg shadow mb-2" onClick={() => searchByUrlAddHistory("gemini://gemi.dev/cgi-bin/wp.cgi/")}>
+              <Button className="bg-blue-500 text-white rounded-lg shadow" onClick={() => searchByUrlAddHistory("gemini://gemi.dev/cgi-bin/wp.cgi/")}>
                 Gemipedia
               </Button>
             </li>
             <li className="mb-2">
-              <Button className="p-2 w-[90%] bg-blue-500 text-white rounded-lg shadow mb-2" onClick={() => searchByUrlAddHistory("gemini://cdg.thegonz.net/")}>
+              <Button className="bg-blue-500 text-white rounded-lg shadow" onClick={() => searchByUrlAddHistory("gemini://cdg.thegonz.net/")}>
                 TheGonz
               </Button>
             </li>
