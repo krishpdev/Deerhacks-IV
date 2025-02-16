@@ -81,7 +81,7 @@ export default function HomePage() {
                 </Button>
               </li>
               <li className="mb-2">
-                <Button className="p-2 w-[90%] bg-blue-500 text-white rounded-lg shadow mb-2" onClick={() => searchByUrl("gemini://geminiprotocol.net/community.gmi")}>
+                <Button className="p-2 w-[90%] bg-blue-500 text-white rounded-lg shadow mb-2">
                   Gemini Community
                 </Button>
               </li>
@@ -107,7 +107,7 @@ export default function HomePage() {
             <div className="text-center mb-4">
               <Image
                 className="mx-auto"
-                src="/images/logo.png"
+                src="/images/logo.jpg"
                 alt="Logo image"
                 width={128}
                 height={128}
@@ -124,13 +124,13 @@ export default function HomePage() {
               />
               <div className="flex space-x-2">
                 <Button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
-                
+                  Back
                 </Button >
                 <Button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                   Search
                 </Button>
                 <Button type="button" className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
-                  
+                  Forward
                 </Button>
               </div>
             </form>
