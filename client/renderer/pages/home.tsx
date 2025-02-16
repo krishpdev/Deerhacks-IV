@@ -44,16 +44,16 @@ export default function HomePage() {
     }
   };
 
-  const searchByUrl = async (searchUrl: string) => {
+  const searchByUrl = async (searchUrl: string, index: number = tabsptr) => {
     setTabs((prevTabs) => {
       const newTabs = [...prevTabs];
-      newTabs[tabsptr] = searchUrl;
+      newTabs[index] = searchUrl;
       return newTabs;
     });
     setUrl(searchUrl);
     await handleSearch(searchUrl);
   };
-
+  
   const searchByUrlAddHistory = async (searchUrl: string) => {
     setHistoryPtr(historyptr + 1);
     setHistory([...history, searchUrl]);
@@ -102,8 +102,8 @@ export default function HomePage() {
                   index === tabsptr ? "bg-blue-300" : "bg-gray-200"
                 }`}
                 onClick={() => {
-                  searchByUrl(tabs[index]);
                   setTabsPtr(index);
+                  searchByUrl(tabs[index], index);
                 }}
               >
                 {tab}
