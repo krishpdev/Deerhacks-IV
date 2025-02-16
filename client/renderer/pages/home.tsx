@@ -15,6 +15,7 @@ export default function HomePage() {
   const [url, setUrl] = useState('gemini://geminiprotocol.net/')
   const [result, setResult] = useState<ContentItem[]>([])
   const [tabs, setTabs] = useState<string[]>(['gemini://geminiprotocol.net/'])
+  const [tabsptr, setTabsPtr] = useState(0)
   const [history, setHistory] = useState<string[]>(['gemini://geminiprotocol.net/'])
   const [historyptr, setHistoryPtr] = useState(0)
 
@@ -39,6 +40,11 @@ export default function HomePage() {
   }
   
   const searchByUrl = async (searchUrl: string) => {
+    setTabs(prevTabs => {
+      const newTabs = [...prevTabs]
+      newTabs[tabsptr] = searchUrl
+      return newTabs
+    })
     setUrl(searchUrl)
     await handleSearch(searchUrl)
   }
